@@ -9,6 +9,7 @@ const rules = {
 			"tickets-manager:showall",
 			"user-modal:editProfile",
 			"user-modal:editQueues",
+			"user-modal:editPassword",
 			"ticket-options:deleteTicket",
 			"contacts-page:deleteContact",
 		],

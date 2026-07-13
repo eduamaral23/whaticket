@@ -158,16 +158,22 @@ const UserModal = ({ open, onClose, userId }) => {
 										margin="dense"
 										fullWidth
 									/>
-									<Field
-										as={TextField}
-										label={i18n.t("userModal.form.password")}
-										type="password"
-										name="password"
-										error={touched.password && Boolean(errors.password)}
-										helperText={touched.password && errors.password}
-										variant="outlined"
-										margin="dense"
-										fullWidth
+									<Can
+										role={loggedInUser.profile}
+										perform="user-modal:editPassword"
+										yes={() => (
+											<Field
+												as={TextField}
+												label={i18n.t("userModal.form.password")}
+												type="password"
+												name="password"
+												error={touched.password && Boolean(errors.password)}
+												helperText={touched.password && errors.password}
+												variant="outlined"
+												margin="dense"
+												fullWidth
+											/>
+										)}
 									/>
 								</div>
 								<div className={classes.multFieldLine}>
