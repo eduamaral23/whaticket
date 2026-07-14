@@ -24,7 +24,7 @@ import api from "../../services/api";
 import toastError from "../../errors/toastError";
 import QueueSelect from "../QueueSelect";
 import { AuthContext } from "../../context/Auth/AuthContext";
-import { Can } from "../Can";
+import { Can, check } from "../Can";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -211,15 +211,14 @@ const UserModal = ({ open, onClose, userId }) => {
 													>
 														<MenuItem value="user">User</MenuItem>
 														<MenuItem value="admin">Admin</MenuItem>
-														<Can
-															role={loggedInUser.profile}
-															perform="user-modal:editSuperProfile"
-															yes={() => (
-																<MenuItem value="superadmin">
-																	Super Admin
-																</MenuItem>
-															)}
-														/>
+														{check(
+															loggedInUser.profile,
+															"user-modal:editSuperProfile"
+														) && (
+															<MenuItem value="superadmin">
+																Super Admin
+															</MenuItem>
+														)}
 													</Field>
 												</>
 											)}
