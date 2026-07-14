@@ -24,7 +24,7 @@ import api from "../../services/api";
 import toastError from "../../errors/toastError";
 import QueueSelect from "../QueueSelect";
 import { AuthContext } from "../../context/Auth/AuthContext";
-import { Can } from "../Can";
+import { Can, check } from "../Can";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -158,16 +158,22 @@ const UserModal = ({ open, onClose, userId }) => {
 										margin="dense"
 										fullWidth
 									/>
-									<Field
-										as={TextField}
-										label={i18n.t("userModal.form.password")}
-										type="password"
-										name="password"
-										error={touched.password && Boolean(errors.password)}
-										helperText={touched.password && errors.password}
-										variant="outlined"
-										margin="dense"
-										fullWidth
+									<Can
+										role={loggedInUser.profile}
+										perform="user-modal:editPassword"
+										yes={() => (
+											<Field
+												as={TextField}
+												label={i18n.t("userModal.form.password")}
+												type="password"
+												name="password"
+												error={touched.password && Boolean(errors.password)}
+												helperText={touched.password && errors.password}
+												variant="outlined"
+												margin="dense"
+												fullWidth
+											/>
+										)}
 									/>
 								</div>
 								<div className={classes.multFieldLine}>
@@ -203,8 +209,16 @@ const UserModal = ({ open, onClose, userId }) => {
 														id="profile-selection"
 														required
 													>
-														<MenuItem value="admin">Admin</MenuItem>
 														<MenuItem value="user">User</MenuItem>
+														<MenuItem value="admin">Admin</MenuItem>
+														{check(
+															loggedInUser.profile,
+															"user-modal:editSuperProfile"
+														) && (
+															<MenuItem value="superadmin">
+																Super Admin
+															</MenuItem>
+														)}
 													</Field>
 												</>
 											)}
