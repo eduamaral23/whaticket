@@ -209,8 +209,17 @@ const UserModal = ({ open, onClose, userId }) => {
 														id="profile-selection"
 														required
 													>
-														<MenuItem value="admin">Admin</MenuItem>
 														<MenuItem value="user">User</MenuItem>
+														<MenuItem value="admin">Admin</MenuItem>
+														<Can
+															role={loggedInUser.profile}
+															perform="user-modal:editSuperProfile"
+															yes={() => (
+																<MenuItem value="superadmin">
+																	Super Admin
+																</MenuItem>
+															)}
+														/>
 													</Field>
 												</>
 											)}
